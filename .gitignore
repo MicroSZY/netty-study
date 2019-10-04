@@ -31,3 +31,9 @@ build/
 .vscode/
 /mvnw
 /mvnw.cmd
+/src/test/java/com/netty/demo/DemoApplicationTests.java
+/src/main/resources/application.properties
+/.mvn/wrapper/MavenWrapperDownloader.java
+/.mvn/wrapper/maven-wrapper.properties
+/.mvn/wrapper/maven-wrapper.jar
+/src/main/java/com/netty/demo/DemoApplication.java
