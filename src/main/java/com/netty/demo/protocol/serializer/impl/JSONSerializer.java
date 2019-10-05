@@ -1,8 +1,8 @@
-package com.netty.demo.common.serializer.impl;
+package com.netty.demo.protocol.serializer.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.netty.demo.common.serializer.Serializer;
-import com.netty.demo.common.serializer.SerializerAlgorithm;
+import com.netty.demo.protocol.serializer.Serializer;
+import com.netty.demo.protocol.serializer.SerializerAlgorithm;
 
 /**
  * @description  序列化实现类

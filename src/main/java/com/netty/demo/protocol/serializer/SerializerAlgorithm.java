@@ -1,4 +1,4 @@
-package com.netty.demo.common.serializer;
+package com.netty.demo.protocol.serializer;
 
 /**
  * @description  定义序列化标识

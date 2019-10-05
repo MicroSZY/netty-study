@@ -1,15 +1,18 @@
-package com.netty.demo.common.packet;
+package com.netty.demo.protocol;
 
-import com.netty.demo.common.packet.impl.LoginRequestPacket;
-import com.netty.demo.common.serializer.impl.JSONSerializer;
-import com.netty.demo.common.serializer.Serializer;
+import com.netty.demo.protocol.request.LoginRequestPacket;
+import com.netty.demo.protocol.request.MessageRequestPacket;
+import com.netty.demo.protocol.response.LoginResponsePacket;
+import com.netty.demo.protocol.response.MessageResponsePacket;
+import com.netty.demo.protocol.serializer.impl.JSONSerializer;
+import com.netty.demo.protocol.serializer.Serializer;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.netty.demo.common.packet.Command.LOGIN_REQUEST;
+import static com.netty.demo.protocol.command.Command.*;
 
 /**
  * @description  实际编码，解码过程
@@ -31,6 +34,9 @@ public class PacketCodec {
     static{
         packetTypeMap = new HashMap<>();
         packetTypeMap.put(LOGIN_REQUEST, LoginRequestPacket.class);
+        packetTypeMap.put(LOGIN_RESPONSE, LoginResponsePacket.class);
+        packetTypeMap.put(MESSAGE_REQUEST, MessageRequestPacket.class);
+        packetTypeMap.put(MESSAGE_RESPONSE, MessageResponsePacket.class);
 
         serializerMap = new HashMap<>();
         Serializer serializer = new JSONSerializer();

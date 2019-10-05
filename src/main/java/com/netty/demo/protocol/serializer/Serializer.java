@@ -1,6 +1,6 @@
-package com.netty.demo.common.serializer;
+package com.netty.demo.protocol.serializer;
 
-import com.netty.demo.common.serializer.impl.JSONSerializer;
+import com.netty.demo.protocol.serializer.impl.JSONSerializer;
 
 /**
  * @description  定义序列化接口

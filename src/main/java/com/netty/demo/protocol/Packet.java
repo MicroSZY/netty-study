@@ -1,4 +1,4 @@
-package com.netty.demo.common.packet;
+package com.netty.demo.protocol;
 
 import lombok.Data;
 

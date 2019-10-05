@@ -1,5 +1,6 @@
 package com.netty.demo.server;
 
+import com.netty.demo.server.handler.*;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
@@ -8,7 +9,9 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
+import lombok.extern.log4j.Log4j2;
 
+@Log4j2
 public class NettyServer {
 
     public static void main(String[] args) {
@@ -19,9 +22,9 @@ public class NettyServer {
         NioEventLoopGroup msgGroup = new NioEventLoopGroup();
 
         // 引导类 ServerBootstrap，这个类将引导我们进行服务端的启动工作
-        ServerBootstrap bootstrap = new ServerBootstrap();
+        ServerBootstrap serverBootstrap = new ServerBootstrap();
 
-        bootstrap
+        serverBootstrap
                 .group(linkGroup,msgGroup)
                 // 指定io模型
                 .channel(NioServerSocketChannel.class)
@@ -39,14 +42,26 @@ public class NettyServer {
                 .childOption(ChannelOption.TCP_NODELAY,true)
                 .childHandler(new ChannelInitializer<NioSocketChannel>() {
                     @Override
-                    protected void initChannel(NioSocketChannel nioSocketChannel) {
+                    protected void initChannel(NioSocketChannel ch) {
                         // 业务逻辑
-                        nioSocketChannel.pipeline().addLast(new FirstServerHandler());
+                        ch.pipeline().addLast(new FirstServerHandler());
+//                        ch.pipeline().addLast(new ServerHandler());
+
+                        // inBound，处理读数据的逻辑链
+//                        ch.pipeline().addLast(new InBoundHandlerA());
+//                        ch.pipeline().addLast(new InBoundHandlerB());
+//                        ch.pipeline().addLast(new InBoundHandlerC());
+
+                        // outBound，处理写数据的逻辑链
+//                        ch.pipeline().addLast(new OutBoundHandlerA());
+//                        ch.pipeline().addLast(new OutBoundHandlerB());
+//                        ch.pipeline().addLast(new OutBoundHandlerC());
+
                     }
                 });
 
                 // 绑定端口号（bind 方法是异步的）
-                bind(bootstrap,8000);
+                bind(serverBootstrap,8000);
 
     }
 

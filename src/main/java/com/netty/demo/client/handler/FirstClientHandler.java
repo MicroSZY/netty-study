@@ -1,4 +1,4 @@
-package com.netty.demo.client;
+package com.netty.demo.client.handler;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
@@ -18,10 +18,12 @@ public class FirstClientHandler extends ChannelInboundHandlerAdapter {
      */
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws InterruptedException {
-        // 1.获取数据
-        ByteBuf buffer = getByteBuf(ctx);
-        // 2.写数据
-        ctx.channel().writeAndFlush(buffer);
+        for(int i = 0 ; i<1000 ;i++){
+            // 1.获取数据
+            ByteBuf buffer = getByteBuf(ctx);
+            // 2.写数据
+            ctx.channel().writeAndFlush(buffer);
+        }
     }
 
     @Override
@@ -37,7 +39,7 @@ public class FirstClientHandler extends ChannelInboundHandlerAdapter {
         ByteBuf buffer = ctx.alloc().buffer();
 
         // 2. 伪造数据，指定字符串的字符集为 utf-8
-        byte[] bytes = "吗卖批".getBytes(Charset.forName("utf-8"));
+        byte[] bytes = "大家好，我是yy，是一名新手java开发者，希望多多指教！！！".getBytes(Charset.forName("utf-8"));
 
         // 3. 填充数据到 ByteBuf
         buffer.writeBytes(bytes);

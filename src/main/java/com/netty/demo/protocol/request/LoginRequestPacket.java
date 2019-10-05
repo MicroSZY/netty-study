@@ -1,9 +1,9 @@
-package com.netty.demo.common.packet.impl;
+package com.netty.demo.protocol.request;
 
-import com.netty.demo.common.packet.Packet;
+import com.netty.demo.protocol.Packet;
 import lombok.Data;
 
-import static com.netty.demo.common.packet.Command.LOGIN_REQUEST;
+import static com.netty.demo.protocol.command.Command.LOGIN_REQUEST;
 
 @Data
 public class LoginRequestPacket extends Packet {
