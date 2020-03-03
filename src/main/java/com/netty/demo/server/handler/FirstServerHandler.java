@@ -10,7 +10,7 @@ import java.util.Date;
 public class FirstServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg){
+    public void channelRead(ChannelHandlerContext ctx, Object msg) {
         // 收消息的逻辑
         ByteBuf in = (ByteBuf) msg;
         System.out.println(new Date() + " -> 服务端收到消息：" + in.toString(Charset.forName("utf-8")));
@@ -21,7 +21,7 @@ public class FirstServerHandler extends ChannelInboundHandlerAdapter {
         ctx.writeAndFlush(out);
     }
 
-    private ByteBuf getByteBuf(ChannelHandlerContext ctx){
+    private ByteBuf getByteBuf(ChannelHandlerContext ctx) {
         ByteBuf buffer = ctx.alloc().buffer();
         byte[] bytes = "我是服务端".getBytes(Charset.forName("utf-8"));
         buffer.writeBytes(bytes);

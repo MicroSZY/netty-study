@@ -1,8 +1,8 @@
 package com.netty.demo.protocol.command;
 
 /**
- * @description  定义指令(类似于常量池或者枚举类)
  * @author YY
+ * @description 定义指令(类似于常量池或者枚举类)
  * @date 2019/10/3/003
  */
 public interface Command {

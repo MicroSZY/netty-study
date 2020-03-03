@@ -3,8 +3,8 @@ package com.netty.demo.protocol.serializer;
 import com.netty.demo.protocol.serializer.impl.JSONSerializer;
 
 /**
- * @description  定义序列化接口
  * @author YY
+ * @description 定义序列化接口
  * @date 2019/10/3/003
  */
 public interface Serializer {

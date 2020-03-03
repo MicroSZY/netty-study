@@ -17,7 +17,7 @@ import java.util.Date;
 public class ServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg){
+    public void channelRead(ChannelHandlerContext ctx, Object msg) {
 
         ByteBuf requestByteBuf = (ByteBuf) msg;
 
@@ -28,21 +28,21 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
         // 编码
         ByteBuf byteBuf;
 
-        if (packet instanceof LoginRequestPacket){
+        if (packet instanceof LoginRequestPacket) {
 
             LoginRequestPacket lrp = (LoginRequestPacket) packet;
-            if (login(lrp) == true){
+            if (login(lrp) == true) {
                 System.out.println(new Date() + "->登录成功");
                 loginResponsePacket.setSuccess(true);
-            }else{
+            } else {
                 System.out.println(new Date() + "->登录失败");
                 loginResponsePacket.setSuccess(false);
                 loginResponsePacket.setReason("账号或密码错误！！！");
             }
 
-            byteBuf = PacketCodec.INSTANCE.encode(ctx.alloc(),loginResponsePacket);
+            byteBuf = PacketCodec.INSTANCE.encode(ctx.alloc(), loginResponsePacket);
 
-        }else if (packet instanceof MessageRequestPacket){
+        } else if (packet instanceof MessageRequestPacket) {
 
             // 输出接受到的消息
             MessageRequestPacket messageRequestPacket = (MessageRequestPacket) packet;
@@ -53,19 +53,19 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
             messageResponsePacket.setMessage("服务端收到消息：" + messageRequestPacket.getMessage());
 
             // 编码
-            byteBuf = PacketCodec.INSTANCE.encode(ctx.alloc(),messageResponsePacket);
-        }else{
+            byteBuf = PacketCodec.INSTANCE.encode(ctx.alloc(), messageResponsePacket);
+        } else {
             throw new RuntimeException("未声明的指令类型！！！");
         }
-        
+
         // 返回登录响应
         ctx.channel().writeAndFlush(byteBuf);
     }
 
-    private boolean login(LoginRequestPacket lrp){
-        if ("szy".equals(lrp.getUsername()) && "123456".equals(lrp.getPassword())){
+    private boolean login(LoginRequestPacket lrp) {
+        if ("szy".equals(lrp.getUsername()) && "123456".equals(lrp.getPassword())) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }

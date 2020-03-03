@@ -15,8 +15,8 @@ import java.util.Map;
 import static com.netty.demo.protocol.command.Command.*;
 
 /**
- * @description  实际编码，解码过程
  * @author YY
+ * @description 实际编码，解码过程
  * @date 2019/10/3/003
  */
 public class PacketCodec {
@@ -25,13 +25,13 @@ public class PacketCodec {
      */
     private static final int MAGIC_NUMBER = 0x12345678;
 
-    private static final Map<Byte,Class<? extends Packet>> packetTypeMap;
+    private static final Map<Byte, Class<? extends Packet>> packetTypeMap;
 
-    private static final Map<Byte,Serializer> serializerMap;
+    private static final Map<Byte, Serializer> serializerMap;
 
     public static final PacketCodec INSTANCE = new PacketCodec();
 
-    static{
+    static {
         packetTypeMap = new HashMap<>();
         packetTypeMap.put(LOGIN_REQUEST, LoginRequestPacket.class);
         packetTypeMap.put(LOGIN_RESPONSE, LoginResponsePacket.class);
@@ -40,13 +40,13 @@ public class PacketCodec {
 
         serializerMap = new HashMap<>();
         Serializer serializer = new JSONSerializer();
-        serializerMap.put(serializer.getSerializerAlgorithm(),serializer);
+        serializerMap.put(serializer.getSerializerAlgorithm(), serializer);
     }
 
     /**
      * 编码方法（java对象转换成二进制流）
      */
-    public ByteBuf encode(ByteBufAllocator byteBufAllocator, Packet packet){
+    public ByteBuf encode(ByteBufAllocator byteBufAllocator, Packet packet) {
 
         /**
          * 1.首先，我们需要创建一个 ByteBuf，这里我们调用 Netty 的 ByteBuf 分配器来创建，
@@ -78,7 +78,7 @@ public class PacketCodec {
     /**
      * 解码方法（二进制流转换成java对象）
      */
-    public Packet decode(ByteBuf byteBuf){
+    public Packet decode(ByteBuf byteBuf) {
         /**
          * 1.我们假定 decode 方法传递进来的 ByteBuf 已经是合法的，即首四个字节是我们前面定义的魔数 0x12345678，
          *   这里我们调用 skipBytes 跳过这四个字节。这里，我们暂时不关注协议版本，通常我们在没有遇到协议升级的时候，
@@ -103,7 +103,7 @@ public class PacketCodec {
         byte command = byteBuf.readByte();
 
         // 数据包长度
-        int length =  byteBuf.readInt();
+        int length = byteBuf.readInt();
 
         // 实际数据
         byte[] bytes = new byte[length];
@@ -114,10 +114,10 @@ public class PacketCodec {
         // 获取序列化类型
         Serializer serializer = getSerializer(serializeAlgorithm);
 
-        if (packetType != null && serializer != null){
+        if (packetType != null && serializer != null) {
             // 反序列化得到java对象
-            return serializer.deserialize(packetType,bytes);
-        }else {
+            return serializer.deserialize(packetType, bytes);
+        } else {
             return null;
         }
     }
@@ -125,14 +125,14 @@ public class PacketCodec {
     /**
      * 获取请求类型的方法
      */
-    public Class<? extends Packet> getPacketType(byte command){
+    public Class<? extends Packet> getPacketType(byte command) {
         return packetTypeMap.get(command);
     }
 
     /**
      * 获取序列化方式的方法
      */
-    public Serializer getSerializer(byte serializeAlgorithm){
+    public Serializer getSerializer(byte serializeAlgorithm) {
         return serializerMap.get(serializeAlgorithm);
     }
 

@@ -20,24 +20,24 @@ public class ByteBufTest {
          */
 
         // 初始化一个ByteBuf
-        ByteBuf buffer = ByteBufAllocator.DEFAULT.buffer(9,100);
+        ByteBuf buffer = ByteBufAllocator.DEFAULT.buffer(9, 100);
         print("allocate ByteBuf(9, 100)", buffer);
 
         // write 方法改变写指针，写完之后写指针未到 capacity 的时候，buffer 仍然可写
-        buffer.writeBytes(new byte[]{1,2,3,4});
-        print("writeBytes(1,2,3,4)",buffer);
+        buffer.writeBytes(new byte[]{1, 2, 3, 4});
+        print("writeBytes(1,2,3,4)", buffer);
 
         // write 方法改变写指针，写完之后写指针未到 capacity 的时候，buffer 仍然可写, 写完 int 类型之后，写指针增加4（int占用4字节）
         buffer.writeInt(12);
-        print("writeInt(12)",buffer);
+        print("writeInt(12)", buffer);
 
         // write 方法改变写指针, 写完之后写指针等于 capacity 的时候，buffer 不可写
         buffer.writeBytes(new byte[]{5});
-        print("writeBytes(5)",buffer);
+        print("writeBytes(5)", buffer);
 
         // write 方法改变写指针，写的时候发现 buffer 不可写则开始扩容，扩容之后 capacity 随即改变
-        buffer.writeBytes(new byte[]{7,8});
-        print("writeBytes(7,8)",buffer);
+        buffer.writeBytes(new byte[]{7, 8});
+        print("writeBytes(7,8)", buffer);
 
         // get 方法不改变读写指针
         System.out.println("getByte(3) return: " + buffer.getByte(3));
@@ -46,12 +46,12 @@ public class ByteBufTest {
         print("getByte()", buffer);
 
         // set 方法不改变读写指针
-        buffer.setByte(buffer.readableBytes() + 1,0);
-        print("setByte(7)",buffer);
+        buffer.setByte(buffer.readableBytes() + 1, 0);
+        print("setByte(7)", buffer);
 
     }
 
-    public static void print(String action, ByteBuf buffer){
+    public static void print(String action, ByteBuf buffer) {
         System.out.println("after ===========" + action + "============");
         System.out.println("capacity(): " + buffer.capacity());                 // 初始化容量
         System.out.println("maxCapacity(): " + buffer.maxCapacity());           // 最大容量

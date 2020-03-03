@@ -46,40 +46,40 @@ public class NettyClient {
                     @Override
                     protected void initChannel(SocketChannel ch) {
                         ch.pipeline().addLast(new FirstClientHandler());
-                        //ch.pipeline().addLast(new ClientHandler());
+//                        ch.pipeline().addLast(new ClientHandler());
                     }
                 });
 
         // 建立连接
-        connect(bootstrap,"127.0.0.1",8000,MAX_RETRY);
+        connect(bootstrap, "127.0.0.1", 8000, MAX_RETRY);
 
     }
 
     // 重连（connect方法是异步的）
-    private static void connect(Bootstrap bootstrap, String host, int port, int reTry){
-        bootstrap.connect(host,port).addListener(future -> {
-          if (future.isSuccess()) {
-              System.out.println("成功连接服务端,启动控制台线程……");
-              Channel channel = ((ChannelFuture) future).channel();
-              startConsoleThread(channel);
-          }else if (reTry == 0){
-              System.out.println("重连超时，放弃连接！！");
-          }else {
-              // 第几次重连
-              int order = (MAX_RETRY - reTry) + 1;
-              // 本次重连间隔
-              int delay = 1 << order;
-              log.info(new Date() + "->连接失败，正在第" + order + "次重新连接....");
-              // 连接失败，递归调用自身，实现重连
-              bootstrap.config().group().schedule(() ->connect(bootstrap, host, port,reTry - 1), delay, TimeUnit.SECONDS);
-          }
+    private static void connect(Bootstrap bootstrap, String host, int port, int reTry) {
+        bootstrap.connect(host, port).addListener(future -> {
+            if (future.isSuccess()) {
+                System.out.println("成功连接服务端,启动控制台线程……");
+                Channel channel = ((ChannelFuture) future).channel();
+                startConsoleThread(channel);
+            } else if (reTry == 0) {
+                System.out.println("重连超时，放弃连接！！");
+            } else {
+                // 第几次重连
+                int order = (MAX_RETRY - reTry) + 1;
+                // 本次重连间隔
+                int delay = 1 << order;
+                log.info(new Date() + "->连接失败，正在第" + order + "次重新连接....");
+                // 连接失败，递归调用自身，实现重连
+                bootstrap.config().group().schedule(() -> connect(bootstrap, host, port, reTry - 1), delay, TimeUnit.SECONDS);
+            }
         });
     }
 
     /**
      * 开启控制台线程的方法
      */
-    public static void startConsoleThread(Channel channel){
+    public static void startConsoleThread(Channel channel) {
         new Thread(() -> {
             while (!Thread.interrupted()) {
                 if (LoginUtil.hasLogin(channel)) {
@@ -94,6 +94,5 @@ public class NettyClient {
                 }
             }
         }).start();
-
     }
 }

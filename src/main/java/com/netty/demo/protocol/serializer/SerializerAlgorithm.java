@@ -1,8 +1,8 @@
 package com.netty.demo.protocol.serializer;
 
 /**
- * @description  定义序列化标识
  * @author YY
+ * @description 定义序列化标识
  * @date 2019/10/3/003
  */
 public interface SerializerAlgorithm {

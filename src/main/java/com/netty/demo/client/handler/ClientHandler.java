@@ -19,7 +19,7 @@ import java.util.UUID;
 public class ClientHandler extends ChannelInboundHandlerAdapter {
 
     @Override
-    public void channelActive(ChannelHandlerContext ctx){
+    public void channelActive(ChannelHandlerContext ctx) {
         System.out.println(new Date() + "->客户端开始登录");
 
         // 创建登录对象
@@ -29,7 +29,7 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
         lrp.setPassword("123456");
 
         // 编码
-        ByteBuf byteBuf = PacketCodec.INSTANCE.encode(ctx.alloc(),lrp);
+        ByteBuf byteBuf = PacketCodec.INSTANCE.encode(ctx.alloc(), lrp);
 
         // 写入数据
         ctx.channel().writeAndFlush(byteBuf);
@@ -37,23 +37,23 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
     }
 
     @Override
-    public void channelRead(ChannelHandlerContext ctx,Object msg){
+    public void channelRead(ChannelHandlerContext ctx, Object msg) {
         ByteBuf responseByteBuf = (ByteBuf) msg;
 
         // 解码
         Packet packet = PacketCodec.INSTANCE.decode(responseByteBuf);
 
-        if (packet instanceof LoginResponsePacket){
+        if (packet instanceof LoginResponsePacket) {
             // 强转
             LoginResponsePacket loginResponsePacket = (LoginResponsePacket) packet;
-            if (packet instanceof LoginResponsePacket){
+            if (packet instanceof LoginResponsePacket) {
                 LoginUtil.markAsLogin(ctx.channel());
                 System.out.println(new Date() + "->客户端登录成功！！！");
-            }else{
+            } else {
                 System.out.println(new Date() + "->登录失败，原因：" + loginResponsePacket.getReason());
             }
 
-        }else if (packet instanceof MessageResponsePacket){
+        } else if (packet instanceof MessageResponsePacket) {
             MessageResponsePacket messageResponsePacket = (MessageResponsePacket) packet;
             System.out.println(messageResponsePacket.getMessage());
 
